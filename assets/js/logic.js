@@ -25,6 +25,7 @@ var timerElement = document.querySelector("#time");
 var questionTitle = document.querySelector("#question-title");
 var choicesDiv = document.querySelector("#choices");
 var finalScore = document.querySelector("#final-score");
+var feedbackDiv = document.querySelector("#feedback");
 
 var timer;
 var timerCount;
@@ -46,6 +47,9 @@ choicesDiv.appendChild(option1);
 choicesDiv.appendChild(option2);
 choicesDiv.appendChild(option3);
 choicesDiv.appendChild(option4);
+
+var feedback = document.createElement("p");
+feedbackDiv.appendChild(feedback);
 
 
 function startGame() {
@@ -132,13 +136,16 @@ function startTimer() {
 }
 
 function evaluateAnswer(){
+    document.getElementById("feedback").classList.remove('hide');
     if (selected === "true"){
         correctSound.play();
         currentScore++;
+        feedback.textContent = "Correct!";
     }
     else{
         incorrectSound.play();
         timerCount = timerCount - 5;
+        feedback.textContent = "Wrong!";
     }
 
     console.log(currentScore);
@@ -146,6 +153,7 @@ function evaluateAnswer(){
 
 function displayEndScreen(){
     document.getElementById("questions").classList.add('hide');
+    document.getElementById("feedback").classList.add('hide');
     document.getElementById("end-screen").classList.remove('hide');
 
     finalScore.textContent = currentScore;
