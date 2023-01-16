@@ -141,11 +141,19 @@ function evaluateAnswer(){
         correctSound.play();
         currentScore++;
         feedback.textContent = "Correct!";
+
+        setTimeout(function(){
+            document.getElementById("feedback").classList.add('hide');
+        }, 3000);
     }
     else{
         incorrectSound.play();
         timerCount = timerCount - 5;
         feedback.textContent = "Wrong!";
+
+        setTimeout(function(){
+            document.getElementById("feedback").classList.add('hide');
+        }, 3000);
     }
 
     console.log(currentScore);
