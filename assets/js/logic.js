@@ -60,17 +60,12 @@ function startTimer() {
     timer = setInterval(function() {
       timerCount--;
       timerElement.textContent = timerCount;
-      //if (timerCount > 0 & completed all the questions) {
-          // Clears interval and stops timer
-          //clearInterval(timer);
-          //Display End Screen
-      //}
       //If times has run out
       if (timerCount === 0) {
         // Clears interval
         clearInterval(timer);
-        //Display End screen
         alert("You have run out of time");
+        displayEndScreen();
       }
     }, 1000);
   }
@@ -130,6 +125,8 @@ function startTimer() {
         option4.value = questions[questionId].options[3].isCorrect;
     }
     else{
+        // Clears interval and stops timer
+        clearInterval(timer);
         displayEndScreen();
     }
 }
