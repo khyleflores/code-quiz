@@ -27,8 +27,34 @@ var questions = [{
         { text: "Procedural", isCorrect: false },
         { text: "None of the above", isCorrect: false }
     ]
+},
+{
+    id: 3,
+    question: "HTML is a/an  _______ language?",
+    options: [{ text: "Object-Oriented", isCorrect: true},
+        { text: "Object-Based", isCorrect: false },
+        { text: "Procedural", isCorrect: false },
+        { text: "None of the above", isCorrect: false }
+    ]
+},
+{
+    id: 4,
+    question: "CSS is a/an  _______ language?",
+    options: [{ text: "Object-Oriented", isCorrect: true},
+        { text: "Object-Based", isCorrect: false },
+        { text: "Procedural", isCorrect: false },
+        { text: "None of the above", isCorrect: false }
+    ]
+},
+{
+    id: 5,
+    question: "5th is a/an  _______ language?",
+    options: [{ text: "Object-Oriented", isCorrect: true},
+        { text: "Object-Based", isCorrect: false },
+        { text: "Procedural", isCorrect: false },
+        { text: "None of the above", isCorrect: false }
+    ]
 }
+
 ]
 
-var totalQuestions = questions.length;
-console.log(totalQuestions);

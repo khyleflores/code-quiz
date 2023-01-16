@@ -27,7 +27,12 @@ var choicesDiv = document.querySelector("#choices");
 
 var timer;
 var timerCount;
-var questionNo = 0;
+var questionId = 0;
+var totalQuestions = questions.length;
+var currentScore = 0;
+var selected = false;
+var correctSound = new Audio("assets/sfx/correct.wav");
+var incorrectSound = new Audio("assets/sfx/incorrect.wav");
 
 // Create buttons for 4 options
 var option1 = document.createElement("button");
@@ -44,10 +49,8 @@ choicesDiv.appendChild(option4);
 
 function startGame() {
     timerCount = 100;
-    
     startTimer();
     displayQuiz();
-    evaluateAnswer();
 }
 
 
@@ -75,54 +78,70 @@ function startTimer() {
     document.getElementById("start-screen").classList.add('hide');
     document.getElementById("questions").classList.remove('hide');
     
-    questionTitle.textContent = questions[questionNo].question;
-    option1.textContent = "1. " + questions[questionNo].options[0].text;
-    option2.textContent = "2. " + questions[questionNo].options[1].text;
-    option3.textContent = "3. " + questions[questionNo].options[2].text;
-    option4.textContent = "4. " + questions[questionNo].options[3].text;
+    displayQuestion();
 
-  }
-
-
-// Attach event listener to start button to call startGame function on click
-startButton.addEventListener("click", startGame);
-
-function evaluateAnswer() {
-    // Providing the true or false value to the options
-    option1.value = questions[questionNo].options[0].isCorrect;
-    option2.value = questions[questionNo].options[1].isCorrect;
-    option3.value = questions[questionNo].options[2].isCorrect;
-    option4.value = questions[questionNo].options[3].isCorrect;
-
-    var selected = false;
-  
     // Show selection for op1
     option1.addEventListener("click", function() {
-        selected = option1.value
-        nextQuestion();
+        selected = option1.value;
+        questionId++;
+        evaluateAnswer()
+        displayQuestion();
     })
   
     // Show selection for op2
     option2.addEventListener("click", function() {
         selected = option2.value;
-        nextQuestion();
+        questionId++;
+        evaluateAnswer()
+        displayQuestion();
     })
   
     // Show selection for op3
     option3.addEventListener("click", function() {
         selected = option3.value;
-        console.log(selected);
-        nextQuestion();
+        questionId++;
+        evaluateAnswer()
+        displayQuestion();
     })
   
     // Show selection for op4
     option4.addEventListener("click", function() {
         selected = option4.value;
-        nextQuestion();
+        questionId++;
+        evaluateAnswer()
+        displayQuestion();
     })
+
+  }
+
+  function displayQuestion(){
+    if (questionId < totalQuestions) {
+        questionTitle.textContent = questions[questionId].question;
+        option1.textContent = "1. " + questions[questionId].options[0].text;
+        option2.textContent = "2. " + questions[questionId].options[1].text;
+        option3.textContent = "3. " + questions[questionId].options[2].text;
+        option4.textContent = "4. " + questions[questionId].options[3].text;
+        
+        // Providing the true or false value to the options
+        option1.value = questions[questionId].options[0].isCorrect;
+        option2.value = questions[questionId].options[1].isCorrect;
+        option3.value = questions[questionId].options[2].isCorrect;
+        option4.value = questions[questionId].options[3].isCorrect;
+    }
 }
 
-function nextQuestion() {
-    questionNo++;
-    displayQuiz();
+function evaluateAnswer(){
+    if (selected === "true"){
+        correctSound.play();
+        currentScore++;
+    }
+    else{
+        incorrectSound.play();
+        timerCount = timerCount - 5;
+    }
+
+    console.log(currentScore);
 }
+
+// Attach event listener to start button to call startGame function on click
+startButton.addEventListener("click", startGame);
