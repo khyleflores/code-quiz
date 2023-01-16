@@ -24,6 +24,7 @@ var startButton = document.querySelector("#start");
 var timerElement = document.querySelector("#time");
 var questionTitle = document.querySelector("#question-title");
 var choicesDiv = document.querySelector("#choices");
+var finalScore = document.querySelector("#final-score");
 
 var timer;
 var timerCount;
@@ -128,6 +129,9 @@ function startTimer() {
         option3.value = questions[questionId].options[2].isCorrect;
         option4.value = questions[questionId].options[3].isCorrect;
     }
+    else{
+        displayEndScreen();
+    }
 }
 
 function evaluateAnswer(){
@@ -141,6 +145,14 @@ function evaluateAnswer(){
     }
 
     console.log(currentScore);
+}
+
+function displayEndScreen(){
+    document.getElementById("questions").classList.add('hide');
+    document.getElementById("end-screen").classList.remove('hide');
+
+    finalScore.textContent = currentScore;
+
 }
 
 // Attach event listener to start button to call startGame function on click
