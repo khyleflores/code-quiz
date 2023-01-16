@@ -1,20 +1,20 @@
 //Pseudocode
 
-//Variables
+//Variables 
 //startButton YES
 //timerElement YES
-//currentScore
-//viewscores
+//currentScore YES
+//highscore - YES on highscores.html
 //questionsinObjectarray YES
-//finalScore
-//feedBack
+//currentScore - YES
+//feedBack - YES
 
 //When start button is click, timer is activated - YES
-//For loop for 10 questions in object array
-//show feedback if it is correct or wrong
-//if wrong deduct 10 seconds on timer else continue
-//add points every correct answer in variable current score
-//Show final score and asked to enter initials with submit button
+//Object array Questions - Yes
+//show feedback if it is correct or wrong - Yes
+//if wrong deduct 5 seconds on timer else continue - Yes
+//add points every correct answer in variable current score - Yes
+//Show final score and asked to enter initials with submit button - Yes
 //Once submit, go to highscores.html
 
 //When View Highscores is clicked, go to highscores.html
@@ -26,6 +26,8 @@ var questionTitle = document.querySelector("#question-title");
 var choicesDiv = document.querySelector("#choices");
 var finalScore = document.querySelector("#final-score");
 var feedbackDiv = document.querySelector("#feedback");
+var userInitials = document.querySelector("#initials");
+var submitScore = document.querySelector("#submit");
 
 var timer;
 var timerCount;
@@ -155,8 +157,6 @@ function evaluateAnswer(){
             document.getElementById("feedback").classList.add('hide');
         }, 3000);
     }
-
-    console.log(currentScore);
 }
 
 function displayEndScreen(){
@@ -165,8 +165,16 @@ function displayEndScreen(){
     document.getElementById("end-screen").classList.remove('hide');
 
     finalScore.textContent = currentScore;
-
 }
+
+function recordScore(){
+    localStorage.setItem("Score", currentScore);
+    localStorage.setItem("Player", userInitials.value);
+
+    location.href = "highscores.html";
+}
+
+submitScore.addEventListener("click", recordScore);
 
 // Attach event listener to start button to call startGame function on click
 startButton.addEventListener("click", startGame);
