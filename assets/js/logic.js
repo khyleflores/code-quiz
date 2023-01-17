@@ -1,25 +1,4 @@
-//Pseudocode
-
-//Variables 
-//startButton YES
-//timerElement YES
-//currentScore YES
-//highscore - YES on highscores.html
-//questionsinObjectarray YES
-//currentScore - YES
-//feedBack - YES
-
-//When start button is click, timer is activated - YES
-//Object array Questions - Yes
-//show feedback if it is correct or wrong - Yes
-//if wrong deduct 5 seconds on timer else continue - Yes
-//add points every correct answer in variable current score - Yes
-//Show final score and asked to enter initials with submit button - Yes
-//Once submit, go to highscores.html
-
-//When View Highscores is clicked, go to highscores.html
-
-
+// Accessing element by selecting the id and assigning on variables
 var startButton = document.querySelector("#start");
 var timerElement = document.querySelector("#time");
 var questionTitle = document.querySelector("#question-title");
@@ -28,16 +7,19 @@ var finalScore = document.querySelector("#final-score");
 var feedbackDiv = document.querySelector("#feedback");
 var userInitials = document.querySelector("#initials");
 var submitScore = document.querySelector("#submit");
-var HighScoresRecord = [];
 
+//variables
 var timer;
 var timerCount;
 var questionId = 0;
 var totalQuestions = questions.length;
 var currentScore = 0;
 var selected = false;
+//Assigning audio link to variables
 var correctSound = new Audio("assets/sfx/correct.wav");
 var incorrectSound = new Audio("assets/sfx/incorrect.wav");
+// Array where the localstorage records details will be stored
+var HighScoresRecord = [];
 
 // Create buttons for 4 options
 var option1 = document.createElement("button");
@@ -51,23 +33,24 @@ choicesDiv.appendChild(option2);
 choicesDiv.appendChild(option3);
 choicesDiv.appendChild(option4);
 
+//Creating p element and assigning to variable
 var feedback = document.createElement("p");
 feedbackDiv.appendChild(feedback);
 
-
+// The startGame function is called when the start button is clicked
 function startGame() {
     timerCount = 100;
     startTimer();
     displayQuiz();
 }
 
-
+// The setTimer function starts the timer and triggers an alert and display end screen when timer runs out
 function startTimer() {
     // Sets timer
     timer = setInterval(function() {
       timerCount--;
       timerElement.textContent = timerCount;
-      //If times has run out
+      //If times has run out stop timer and alert player
       if (timerCount === 0) {
         // Clears interval
         clearInterval(timer);
@@ -75,9 +58,10 @@ function startTimer() {
         displayEndScreen();
       }
     }, 1000);
-  }
+}
 
-  function displayQuiz() {
+// The DisplayQuiz function is called on startGame function and will be called when the Start Quiz button is clicked
+function displayQuiz() {
     document.getElementById("start-screen").classList.add('hide');
     document.getElementById("questions").classList.remove('hide');
     
@@ -86,6 +70,7 @@ function startTimer() {
     // Show selection for op1
     option1.addEventListener("click", function() {
         selected = option1.value;
+        //Add 1 on questionID to go to next question (index)
         questionId++;
         evaluateAnswer()
         displayQuestion();
@@ -115,9 +100,10 @@ function startTimer() {
         displayQuestion();
     })
 
-  }
+}
 
-  function displayQuestion(){
+//function that will display questions depending on the questionID
+function displayQuestion(){
     if (questionId < totalQuestions) {
         questionTitle.textContent = questions[questionId].question;
         option1.textContent = "1. " + questions[questionId].options[0].text;
@@ -131,57 +117,63 @@ function startTimer() {
         option3.value = questions[questionId].options[2].isCorrect;
         option4.value = questions[questionId].options[3].isCorrect;
     }
+    //If questionId is equal to totalQuestions then stop timer
     else{
-        // Clears interval and stops timer
+        // Clears interval and stops timer then display end screen
         clearInterval(timer);
         displayEndScreen();
     }
 }
 
+//Function to check if the answer is correct and display on feedback
 function evaluateAnswer(){
     document.getElementById("feedback").classList.remove('hide');
+    //If answer is correct, play correct sound; add 1 to current score and display "Correct" on feedback
     if (selected === "true"){
         correctSound.play();
         currentScore++;
         feedback.textContent = "Correct!";
-
+        //Method to only show feedbacks for 3 seconds
         setTimeout(function(){
             document.getElementById("feedback").classList.add('hide');
         }, 3000);
     }
+    //If answer is incorrect, play incorrect sound; deduct 5 seconds to timer and display "Wrong" on feedback
     else{
         incorrectSound.play();
         timerCount = timerCount - 5;
         feedback.textContent = "Wrong!";
-
+        //Method to only show feedbacks for 3 seconds
         setTimeout(function(){
             document.getElementById("feedback").classList.add('hide');
         }, 3000);
     }
 }
 
+//Function to show end screen
 function displayEndScreen(){
     document.getElementById("questions").classList.add('hide');
     document.getElementById("feedback").classList.add('hide');
     document.getElementById("end-screen").classList.remove('hide');
-
+    //set finalscore to current score of player
     finalScore.textContent = currentScore;
 }
 
+//Function to record score in local storage
 function recordScore(){
+    //If there is a records detail in local storage then assign that to HighScoresRecord array
     if (localStorage.getItem("records") !== null) {
         HighScoresRecord = JSON.parse(localStorage.getItem("records"));
     }
     //Pushing new scores details to HighScoresRecord array to store before setting it to local storage
     HighScoresRecord.push([userInitials.value, currentScore]);
-
     //Set the records in local sotrage to HighScoresRecord array
     localStorage.setItem('records', JSON.stringify(HighScoresRecord));
-
-    //Change location highscores.html 
+    //Change location to highscores.html 
     location.href = "highscores.html";
 }
 
+// Attach event listener to Submit button to call recordScore function on click
 submitScore.addEventListener("click", recordScore);
 
 // Attach event listener to start button to call startGame function on click
