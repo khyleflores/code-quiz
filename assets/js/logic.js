@@ -138,10 +138,10 @@ function evaluateAnswer(){
             document.getElementById("feedback").classList.add('hide');
         }, 3000);
     }
-    //If answer is incorrect, play incorrect sound; deduct 5 seconds to timer and display "Wrong" on feedback
+    //If answer is incorrect, play incorrect sound; deduct 10 seconds to timer and display "Wrong" on feedback
     else{
         incorrectSound.play();
-        timerCount = timerCount - 5;
+        timerCount = timerCount - 10;
         feedback.textContent = "Wrong!";
         //Method to only show feedbacks for 3 seconds
         setTimeout(function(){
