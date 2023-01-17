@@ -1,21 +1,23 @@
 var highScores = document.querySelector("#highscores");
 var clearButton = document.querySelector("#clear");
 
-var scoresList1 = document.createElement("li");
-var scoresList2 = document.createElement("li");
+var highScoreRecords = [];
 
-highScores.appendChild(scoresList1);
-highScores.appendChild(scoresList2);
+highScoreRecords = JSON.parse(localStorage.getItem("records"));
 
-var storedScore = localStorage.getItem("Score");
-var storedPlayer = localStorage.getItem("Player");
-
-scoresList1.textContent = storedPlayer + " - " + storedScore;
-scoresList2.textContent = storedPlayer + " - " + storedScore;
+if (localStorage.getItem("records") !== null) {
+for (let i = 0; i < highScoreRecords.length; i++) {
+    var li = document.createElement("li");
+    var item = highScoreRecords[i][0] + " - " + highScoreRecords[i][1];
+    var text = document.createTextNode(item);
+    li.appendChild(text);
+    document.getElementById("highscores").appendChild(li);
+    }
+}
 
 function clearAllScores() {
-    localStorage.removeItem("Score");
-    localStorage.removeItem("Player");
+    localStorage.removeItem("records");
+    document. location. reload();
 }
 
 clearButton.addEventListener("click", clearAllScores);
