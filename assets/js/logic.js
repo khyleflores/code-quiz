@@ -28,6 +28,7 @@ var finalScore = document.querySelector("#final-score");
 var feedbackDiv = document.querySelector("#feedback");
 var userInitials = document.querySelector("#initials");
 var submitScore = document.querySelector("#submit");
+var HighScoresRecord = [];
 
 var timer;
 var timerCount;
@@ -168,9 +169,16 @@ function displayEndScreen(){
 }
 
 function recordScore(){
-    localStorage.setItem("Score", currentScore);
-    localStorage.setItem("Player", userInitials.value);
+    if (localStorage.getItem("records") !== null) {
+        HighScoresRecord = JSON.parse(localStorage.getItem("records"));
+    }
+    //Pushing new scores details to HighScoresRecord array to store before setting it to local storage
+    HighScoresRecord.push([userInitials.value, currentScore]);
 
+    //Set the records in local sotrage to HighScoresRecord array
+    localStorage.setItem('records', JSON.stringify(HighScoresRecord));
+
+    //Change location highscores.html 
     location.href = "highscores.html";
 }
 
